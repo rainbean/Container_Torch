@@ -1,2 +1,3 @@
 # Container_Torch
-C++ LibTorch development environment
+
+Linux C++ LibTorch + OpenCV development environment
