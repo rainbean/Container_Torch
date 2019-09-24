@@ -1,9 +1,12 @@
-FROM ubuntu:18.04 as build
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 as build
 
 RUN apt-get -y update
 
 # Build tools:
 RUN apt-get install -y build-essential cmake unzip wget
+
+# GUI (if you want GTK, change 'qt5-default' to 'libgtkglext1-dev' and remove '-DWITH_QT=ON'):
+#RUN apt-get install -y qt5-default
 
 # Media I/O:
 RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev libopenexr-dev
@@ -30,7 +33,7 @@ RUN cd OpenCV && mkdir build && cd build && \
 
 ##########################################################
 
-FROM ubuntu:18.04
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 LABEL maintainer "Jimmy Lee"
 
 # library
@@ -48,6 +51,12 @@ COPY --from=build /usr/local/share/opencv4 /usr/local/share/opencv4
 COPY --from=build /usr/local/include/opencv4 /usr/local/include/opencv4 
 
 # libtorch
-RUN wget -q --no-check-certificate https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip -O /tmp/libtorch.zip && \
+RUN wget -q --no-check-certificate https://download.pytorch.org/libtorch/cu100/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip -O /tmp/libtorch.zip && \
     unzip /tmp/libtorch.zip -d /usr/local && \
     rm /tmp/libtorch.zip
+
+RUN wget -q --no-check-certificate https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip -O /tmp/libtorch.zip && \
+    unzip /tmp/libtorch.zip -d /tmp && \
+    mv /tmp/libtorch /usr/local/libtorch_cpu && \
+    rm /tmp/libtorch.zip
+
