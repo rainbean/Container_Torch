@@ -3,33 +3,40 @@ FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 as build
 RUN apt-get -y update
 
 # Build tools:
-RUN apt-get install -y build-essential cmake unzip wget
-
-# GUI (if you want GTK, change 'qt5-default' to 'libgtkglext1-dev' and remove '-DWITH_QT=ON'):
-#RUN apt-get install -y qt5-default
+RUN apt-get install -y build-essential cmake unzip
 
 # Media I/O:
-RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev libopenexr-dev
+RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev
 
 # Parallelism and linear algebra libraries:
 RUN apt-get install -y libtbb-dev libeigen3-dev
 
-# Documentation:
-RUN apt-get install -y doxygen
-
 # Build OpenCV
 WORKDIR /build
 ARG OPENCV_VERSION='4.1.0'
-RUN wget -q https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
-RUN unzip ${OPENCV_VERSION}.zip && rm ${OPENCV_VERSION}.zip
-RUN mv opencv-${OPENCV_VERSION} OpenCV
-RUN cd OpenCV && mkdir build && cd build && \
-    cmake -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DBUILD_TIFF=ON \
-        -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF \
+ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERSION}.zip
+RUN unzip -q ${OPENCV_VERSION}.zip && \
+    cd opencv-${OPENCV_VERSION} && \
+    cmake -Bbuild -H. \
+        -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DBUILD_TIFF=ON \
+        -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PACKAGE=OFF \
+        -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF \
+        -DBUILD_JAVA=OFF -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=OFF \
+        -DBUILD_LIST=imgcodecs,imgproc,highgui \
+        -DBUILD_opencv_world=ON \
         -DMAKE_BUILD_TYPE=RELEASE \
-        .. && \
+        && \
+    cd build && \
     make -j4 && \
     make install
+
+# Download libtorch
+ADD https://download.pytorch.org/libtorch/cu100/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip libtorch.zip
+RUN unzip -q libtorch.zip -d /usr/local
+
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip libtorch.zip
+RUN unzip -q libtorch.zip -d /tmp && \
+    mv /tmp/libtorch /usr/local/libtorch_cpu
 
 ##########################################################
 
@@ -38,8 +45,8 @@ LABEL maintainer "Jimmy Lee"
 
 # library
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake unzip wget git curl \
-        libpng16-16 libtiff5 libopenexr22 libwebp6 libgl1 \
+        build-essential cmake \
+        libpng16-16 libtiff5 libwebp6 \
         libtbb2 \
         && \
     apt-get clean && \
@@ -51,12 +58,5 @@ COPY --from=build /usr/local/share/opencv4 /usr/local/share/opencv4
 COPY --from=build /usr/local/include/opencv4 /usr/local/include/opencv4 
 
 # libtorch
-RUN wget -q --no-check-certificate https://download.pytorch.org/libtorch/cu100/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip -O /tmp/libtorch.zip && \
-    unzip /tmp/libtorch.zip -d /usr/local && \
-    rm /tmp/libtorch.zip
-
-RUN wget -q --no-check-certificate https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip -O /tmp/libtorch.zip && \
-    unzip /tmp/libtorch.zip -d /tmp && \
-    mv /tmp/libtorch /usr/local/libtorch_cpu && \
-    rm /tmp/libtorch.zip
-
+COPY --from=build /usr/local/libtorch /usr/local/libtorch
+COPY --from=build /usr/local/libtorch_cpu /usr/local/libtorch_cpu
