@@ -45,7 +45,7 @@ LABEL maintainer "Jimmy Lee"
 
 # library
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake \
+        build-essential cmake git \
         libpng16-16 libtiff5 libwebp6 \
         libtbb2 \
         && \
