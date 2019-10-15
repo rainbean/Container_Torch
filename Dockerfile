@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 as build
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as build
 
 RUN apt-get -y update
 
@@ -31,10 +31,10 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu100/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.3.0.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.2.0.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.3.0%2Bcpu.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /tmp && \
     mv /tmp/libtorch /usr/local/libtorch_cpu
 
