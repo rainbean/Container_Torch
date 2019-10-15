@@ -40,7 +40,7 @@ RUN unzip -q libtorch.zip -d /tmp && \
 
 ##########################################################
 
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 LABEL maintainer "Jimmy Lee"
 
 # library
