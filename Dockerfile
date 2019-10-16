@@ -5,15 +5,15 @@ RUN apt-get -y update
 # Build tools:
 RUN apt-get install -y build-essential cmake unzip
 
-# Media I/O:
-RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev
+# Media I/O: (use src code in opencv.zip)
+#RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev
 
 # Parallelism and linear algebra libraries:
 RUN apt-get install -y libtbb-dev libeigen3-dev
 
 # Build OpenCV
 WORKDIR /build
-ARG OPENCV_VERSION='4.1.0'
+ARG OPENCV_VERSION='4.1.2'
 ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERSION}.zip
 RUN unzip -q ${OPENCV_VERSION}.zip && \
     cd opencv-${OPENCV_VERSION} && \
@@ -46,7 +46,6 @@ LABEL maintainer "Jimmy Lee"
 # library
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake git \
-        libpng16-16 libtiff5 libwebp6 \
         libtbb2 \
         && \
     apt-get clean && \
