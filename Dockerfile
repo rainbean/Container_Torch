@@ -31,10 +31,10 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.3.0.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.3.1.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.3.0%2Bcpu.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.3.1%2Bcpu.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /tmp && \
     mv /tmp/libtorch /usr/local/libtorch_cpu
 
