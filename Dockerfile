@@ -13,7 +13,7 @@ RUN apt-get install -y libtbb-dev libeigen3-dev
 
 # Build OpenCV
 WORKDIR /build
-ARG OPENCV_VERSION='4.1.2'
+ARG OPENCV_VERSION='4.2.0'
 ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERSION}.zip
 RUN unzip -q ${OPENCV_VERSION}.zip && \
     cd opencv-${OPENCV_VERSION} && \
@@ -31,10 +31,10 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.3.1.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.4.0.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.3.1%2Bcpu.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.4.0%2Bcpu.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /tmp && \
     mv /tmp/libtorch /usr/local/libtorch_cpu
 
