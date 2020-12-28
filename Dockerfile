@@ -1,12 +1,9 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as build
+FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 as build
 
 RUN apt-get -y update
 
 # Build tools:
 RUN apt-get install -y build-essential cmake unzip
-
-# Media I/O: (use src code in opencv.zip)
-#RUN apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev
 
 # Parallelism and linear algebra libraries:
 RUN apt-get install -y libtbb-dev libeigen3-dev
@@ -31,16 +28,16 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.4.0.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.5.1.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.4.0%2Bcpu.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.5.1%2Bcpu.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /tmp && \
     mv /tmp/libtorch /usr/local/libtorch_cpu
 
 ##########################################################
 
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 LABEL maintainer "Jimmy Lee"
 
 # library
