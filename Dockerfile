@@ -10,7 +10,7 @@ RUN apt-get install -y libtbb-dev libeigen3-dev
 
 # Build OpenCV
 WORKDIR /build
-ARG OPENCV_VERSION='4.2.0'
+ARG OPENCV_VERSION='4.5.1'
 ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERSION}.zip
 RUN unzip -q ${OPENCV_VERSION}.zip && \
     cd opencv-${OPENCV_VERSION} && \
@@ -43,7 +43,7 @@ LABEL maintainer "Jimmy Lee"
 # library
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake git \
-        libtbb2 \
+        libtbb2 libzip-dev \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
