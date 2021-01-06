@@ -28,10 +28,10 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.5.1.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.7.1.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.5.1%2Bcpu.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.7.1%2Bcpu.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /tmp && \
     mv /tmp/libtorch /usr/local/libtorch_cpu
 
@@ -50,7 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # opencv
 COPY --from=build /usr/local/lib /usr/local/lib
-COPY --from=build /usr/local/share/opencv4 /usr/local/share/opencv4  
+COPY --from=build /usr/local/share/opencv4 /usr/local/share/opencv4
 COPY --from=build /usr/local/include/opencv4 /usr/local/include/opencv4 
 
 # libtorch
