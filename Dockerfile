@@ -15,10 +15,11 @@ ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERS
 RUN unzip -q ${OPENCV_VERSION}.zip && \
     cd opencv-${OPENCV_VERSION} && \
     cmake -Bbuild -H. \
-        -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DBUILD_TIFF=ON \
+        -DWITH_EIGEN=ON -DWITH_TBB=ON -DWITH_OPENGL=ON -DBUILD_TIFF=ON \
+        -DWITH_QT=OFF -DWITH_FFMPEG=OFF \
         -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PACKAGE=OFF \
-        -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF \
-        -DBUILD_JAVA=OFF -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=OFF \
+        -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DBUILD_JAVA=OFF \
+        -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=OFF \
         -DBUILD_LIST=imgcodecs,imgproc,highgui \
         -DBUILD_opencv_world=ON \
         -DMAKE_BUILD_TYPE=RELEASE \
@@ -30,10 +31,6 @@ RUN unzip -q ${OPENCV_VERSION}.zip && \
 # Download libtorch
 ADD https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.7.1.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
-
-ADD https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.7.1%2Bcpu.zip libtorch.zip
-RUN unzip -q libtorch.zip -d /tmp && \
-    mv /tmp/libtorch /usr/local/libtorch_cpu
 
 ##########################################################
 
@@ -55,4 +52,3 @@ COPY --from=build /usr/local/include/opencv4 /usr/local/include/opencv4
 
 # libtorch
 COPY --from=build /usr/local/libtorch /usr/local/libtorch
-COPY --from=build /usr/local/libtorch_cpu /usr/local/libtorch_cpu
