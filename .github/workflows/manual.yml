@@ -24,3 +24,10 @@ jobs:
       run: |
         Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT/scripts"
         Write-Output (cmake -DNAME=TBB -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK --find-package -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake")
+    - name: build
+      working-directory: ${{github.workspace}}
+      run: >
+          cmake 
+          -B build
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+      
