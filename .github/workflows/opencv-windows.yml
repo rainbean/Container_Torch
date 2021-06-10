@@ -66,12 +66,12 @@ jobs:
     - name: Build
       working-directory: ${{github.workspace}}/opencv-4.5.1
       run: |
-        msbuild build\OpenCV.sln /t:Build /p:Configuration=Release build\OpenCV.sln
-        msbuild build\INSTALL.vcxproj /t:Build /p:Configuration=Release build\OpenCV.sln
+        msbuild build\OpenCV.sln /t:Build /p:Configuration=Release
+        msbuild build\INSTALL.vcxproj /t:Build /p:Configuration=Release
 
     - name: Pack
       working-directory: ${{github.workspace}}
       run: |
         Copy-Item vcpkg\installed\x64-windows\bin\tbb.dll OpenCV\x64\vc16\bin\
         Copy-Item OpenBLAS\bin\libopenblas.dll OpenCV\x64\vc16\bin\
-        dir OpenCV\x64\vc16\bin\
+        Write-Host (dir OpenCV\x64\vc16\bin\)
