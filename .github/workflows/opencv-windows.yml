@@ -3,9 +3,6 @@ name: Build OpenCV x64-windows
 #on: [push]
 on: [workflow_dispatch]
 
-env:
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: windows-latest
@@ -17,7 +14,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Download OpenBLAS
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{github.workspace}}
       run: |
         Invoke-WebRequest https://github.com/xianyi/OpenBLAS/releases/download/v0.3.13/OpenBLAS-0.3.13-x64.zip -O OpenBLAS.zip
         Write-Host ('OpenBLAS downloaded')
@@ -26,7 +23,7 @@ jobs:
         Copy-Item .\OpenBLAS\lib\libopenblas.lib .\OpenBLAS\lib\openblas.lib
 
     - name: Download OpenCV
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{github.workspace}}
       run: |
         Invoke-WebRequest https://github.com/opencv/opencv/archive/4.5.1.zip -O opencv.zip
         Write-Host ('OpenCV downloaded')
@@ -38,20 +35,20 @@ jobs:
       id: runvcpkg
       with:
         vcpkgArguments: eigen3 tbb
-        vcpkgDirectory: ${{env.GITHUB_WORKSPACE}}/vcpkg
+        vcpkgDirectory: ${{github.workspace}}/vcpkg
         vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
         vcpkgTriplet: x64-windows
         appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
 
     - name: Configure CMake
-      working-directory: ${{env.GITHUB_WORKSPACE}}/opencv-4.5.1
+      working-directory: ${{github.workspace}}/opencv-4.5.1
       env:
-        OpenBLAS_HOME: ${{env.GITHUB_WORKSPACE}}\OpenBLAS
+        OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
       run: |
           cmake -Bbuild \
-            -DMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-            -DCMAKE_INSTALL_PREFIX="${{env.GITHUB_WORKSPACE}}/OpenCV" \
-            -DCMAKE_TOOLCHAIN_FILE="${{env.GITHUB_WORKSPACE}}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
+            -DMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV" \
+            -DCMAKE_TOOLCHAIN_FILE="${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -G "Visual Studio 16 2019" \
             -A "x64" \
             -DWITH_EIGEN=ON \
@@ -72,13 +69,13 @@ jobs:
             -DBUILD_opencv_world=ON
 
     - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}/opencv-4.5.1
+      working-directory: ${{github.workspace}}/opencv-4.5.1
       run: |
-        msbuild build\OpenCV.sln /t:Build /p:Configuration=${{env.BUILD_TYPE}} build\OpenCV.sln
-        msbuild build\INSTALL.vcxproj /t:Build /p:Configuration=${{env.BUILD_TYPE}}
+        msbuild build\OpenCV.sln /t:Build /p:Configuration=Release build\OpenCV.sln
+        msbuild build\INSTALL.vcxproj /t:Build /p:Configuration=Release build\OpenCV.sln
 
     - name: Pack
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{github.workspace}}
       run: |
         Copy-Item vcpkg\installed\x64-windows\bin\tbb.dll OpenCV\x64\vc16\bin\
         Copy-Item OpenBLAS\bin\libopenblas.dll OpenCV\x64\vc16\bin\
