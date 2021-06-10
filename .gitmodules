@@ -1,3 +1,6 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/opencv/opencv.git
