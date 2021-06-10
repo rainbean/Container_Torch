@@ -13,10 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore .
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
