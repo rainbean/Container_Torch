@@ -23,4 +23,4 @@ jobs:
     - name: Send greeting
       run: |
         Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT/scripts"
-        cmake -DNAME=TBB -DCOMPILER_ID=MSVC -DLANGUAGE=CXX -DMODE=LINK --find-package -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        cmake -DNAME=TBB -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK --find-package -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
