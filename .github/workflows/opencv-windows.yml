@@ -43,7 +43,7 @@ jobs:
           -B ${{github.workspace}}/opencv-4.5.1/build
           -DMAKE_BUILD_TYPE=RELEASE
           -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV"
-          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -DCMAKE_TOOLCHAIN_FILE="${Env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
           -G "Visual Studio 16 2019"
           -A "x64"
           -DWITH_EIGEN=ON
