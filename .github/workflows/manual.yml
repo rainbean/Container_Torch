@@ -18,4 +18,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "${env:VCPKG_ROOT}"
+      run: echo "${Env:VCPKG_ROOT}"
