@@ -16,6 +16,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+  
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
