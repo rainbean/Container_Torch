@@ -45,8 +45,8 @@ jobs:
       env:
         OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
       run: |
-          Get-Location
-          dir .
+          Write-Host (Get-Location)
+          Write-Host (dir .)
           cmake -Bbuild \
             -DMAKE_BUILD_TYPE=RELEASE \
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV" \
