@@ -30,4 +30,4 @@ jobs:
     - name: List installed
       run: |
         Write-Host (dir ${{ github.workspace }}/vcpkg/installed/x64-windows/bin/tbb.dll)
-      
+        Write-Host (dir ${{ github.workspace }}/vcpkg/installed/x64-windows/bin/openblas.dll)
