@@ -18,4 +18,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: Write-Output "VCPKG root is $env:VCPKG_ROOT/scripts"
+      run: Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT	/scripts"
