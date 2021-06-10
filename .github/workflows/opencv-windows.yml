@@ -38,31 +38,31 @@ jobs:
       working-directory: ${{github.workspace}}/opencv-4.5.1
       env:
         OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
-      run: |
-          cmake \
-            -S ${{github.workspace}}/opencv-4.5.1 \
-            -B ${{github.workspace}}/opencv-4.5.1/build \
-            -DMAKE_BUILD_TYPE=RELEASE \
-            -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV" \
-            -DCMAKE_TOOLCHAIN_FILE="${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
-            -G "Visual Studio 16 2019" \
-            -A "x64" \
-            -DWITH_EIGEN=ON \
-            -DWITH_TBB=ON \
-            -DWITH_OPENGL=ON \
-            -DBUILD_TIFF=ON \
-            -DWITH_QT=OFF \
-            -DWITH_FFMPEG=OFF \
-            -DBUILD_opencv_apps=OFF \
-            -DBUILD_DOCS=OFF \
-            -DBUILD_PACKAGE=OFF \
-            -DBUILD_PERF_TESTS=OFF \
-            -DBUILD_TESTS=OFF \
-            -DBUILD_JAVA=OFF \
-            -DBUILD_opencv_python2=OFF \
-            -DBUILD_opencv_python3=OFF \
-            -DBUILD_LIST="imgcodecs,imgproc,highgui" \
-            -DBUILD_opencv_world=ON
+      run: >
+          cmake 
+          -S ${{github.workspace}}/opencv-4.5.1
+          -B ${{github.workspace}}/opencv-4.5.1/build
+          -DMAKE_BUILD_TYPE=RELEASE
+          -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV"
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -G "Visual Studio 16 2019"
+          -A "x64"
+          -DWITH_EIGEN=ON
+          -DWITH_TBB=ON
+          -DWITH_OPENGL=ON
+          -DBUILD_TIFF=ON
+          -DWITH_QT=OFF
+          -DWITH_FFMPEG=OFF
+          -DBUILD_opencv_apps=OFF
+          -DBUILD_DOCS=OFF
+          -DBUILD_PACKAGE=OFF
+          -DBUILD_PERF_TESTS=OFF
+          -DBUILD_TESTS=OFF
+          -DBUILD_JAVA=OFF
+          -DBUILD_opencv_python2=OFF
+          -DBUILD_opencv_python3=OFF
+          -DBUILD_LIST="imgcodecs,imgproc,highgui"
+          -DBUILD_opencv_world=ON
 
     - name: Build
       working-directory: ${{github.workspace}}/opencv-4.5.1
