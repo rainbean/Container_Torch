@@ -20,4 +20,4 @@ jobs:
     - name: Send greeting
       run: |
         Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT	/scripts"
-        Write-Output (dir $env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\bin\)
+        Write-Output (dir -s $env:VCPKG_INSTALLATION_ROOT\)
