@@ -16,9 +16,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
-  
+    - name: Build eigen3 & tbb
+      run: |
+        vcpkg install tbb --triplet x64-windows --clean-after-build
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
