@@ -30,23 +30,25 @@ jobs:
         Expand-Archive .\opencv.zip .
         Write-Host ('OpenCV unpacked')
 
-    - name: Prepare vcpkg
-      uses: lukka/run-vcpkg@v6
-      id: runvcpkg
-      with:
-        vcpkgArguments: eigen3 tbb
-        vcpkgDirectory: ${{github.workspace}}/vcpkg
-        vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
-        vcpkgTriplet: x64-windows
-        appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
+#    - name: Prepare vcpkg
+#      uses: lukka/run-vcpkg@v6
+#      id: runvcpkg
+#      with:
+#        vcpkgArguments: eigen3 tbb
+#        vcpkgDirectory: ${{github.workspace}}/vcpkg
+#        vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
+#        vcpkgTriplet: x64-windows
+#        appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/opencv-4.5.1
       env:
         OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
       run: |
+          Get-Location
+          dir .
           cmake -Bbuild \
-            -DMAKE_BUILD_TYPE=Release \
+            -DMAKE_BUILD_TYPE=RELEASE \
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV" \
             -DCMAKE_TOOLCHAIN_FILE="${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -G "Visual Studio 16 2019" \
