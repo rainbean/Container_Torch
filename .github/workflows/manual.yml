@@ -16,18 +16,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Build eigen3 & tbb
+    - name: Build tbb
       run: |
         vcpkg install tbb --triplet x64-windows --clean-after-build
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
-        Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT/scripts"
-        Write-Output (cmake -DNAME=TBB -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK --find-package -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake")
-    - name: build
-      working-directory: ${{github.workspace}}
-      run: >
-          cmake 
-          -B build
-          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        find C:/ -name tbb.dll
+        find D:/ -name tbb.dll
+      shell: bash
       
