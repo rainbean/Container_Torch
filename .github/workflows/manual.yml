@@ -14,15 +14,17 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Build tbb
-      run: |
-        vcpkg install tbb --triplet x64-windows --clean-after-build
+    - name: Restore artifacts, or setup vcpkg
+      uses: lukka/run-vcpkg@v6
+      with:
+        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+        vcpkgTriplet: x64-windows
+        vcpkgArguments: '@${{ github.workspace }}/vcpkg.txt'
+
     # Runs a single command using the runners shell
-    - name: Send greeting
+    - name: List installed
       run: |
-        find C:/ -name tbb.dll
-        find D:/ -name tbb.dll
+        ls ${{ github.workspace }}/vcpkg/installed
       shell: bash
       
