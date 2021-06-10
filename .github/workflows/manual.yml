@@ -29,5 +29,5 @@ jobs:
     # Runs a single command using the runners shell
     - name: List installed
       run: |
-        Write-Host (dir ${{ github.workspace }}/vcpkg/installed)
+        Write-Host (dir ${{ github.workspace }}/vcpkg/installed/x64-windows/bin/tbb.dll)
       
