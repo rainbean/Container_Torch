@@ -30,22 +30,16 @@ jobs:
         Expand-Archive .\opencv.zip .
         Write-Host ('OpenCV unpacked')
 
-    - name: Prepare vcpkg
-      uses: lukka/run-vcpkg@v6
-      id: runvcpkg
-      with:
-        vcpkgArguments: eigen3 tbb
-        vcpkgDirectory: ${{github.workspace}}/vcpkg
-        vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
-        vcpkgTriplet: x64-windows
-        appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
+    - name: Build eigen3 & tbb
+      run: |
+        vcpkg install eigen3 tbb --triplet x64-windows --clean-after-build
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/opencv-4.5.1
       env:
         OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
       run: |
-          cmake 
+          cmake \
             -S ${{github.workspace}}/opencv-4.5.1 \
             -B ${{github.workspace}}/opencv-4.5.1/build \
             -DMAKE_BUILD_TYPE=RELEASE \
