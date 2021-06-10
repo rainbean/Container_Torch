@@ -40,7 +40,6 @@ jobs:
         OpenBLAS_HOME: ${{github.workspace}}\OpenBLAS
       run: >
           cmake 
-          -S ${{github.workspace}}/opencv-4.5.1
           -B ${{github.workspace}}/opencv-4.5.1/build
           -DMAKE_BUILD_TYPE=RELEASE
           -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/OpenCV"
