@@ -19,5 +19,5 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
-        Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT	/scripts"
-        Write-Output (dir -s $env:VCPKG_INSTALLATION_ROOT\)
+        Write-Output "VCPKG root is $env:VCPKG_INSTALLATION_ROOT/scripts"
+        cmake -DNAME=TBB -DCOMPILER_ID=MSVC -DLANGUAGE=CXX -DMODE=LINK --find-package -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
