@@ -29,6 +29,5 @@ jobs:
     # Runs a single command using the runners shell
     - name: List installed
       run: |
-        ls ${{ github.workspace }}/vcpkg/installed
-      shell: bash
+        Write-Host (dir ${{ github.workspace }}/vcpkg/installed)
       
