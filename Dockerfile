@@ -9,12 +9,9 @@ RUN apt-get install -y build-essential cmake unzip
 RUN apt-get install -y libtbb-dev libeigen3-dev
 
 # Build OpenCV
-WORKDIR /build
-ARG OPENCV_VERSION='4.5.1'
-ADD https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip ${OPENCV_VERSION}.zip
-RUN unzip -q ${OPENCV_VERSION}.zip && \
-    cd opencv-${OPENCV_VERSION} && \
-    cmake -Bbuild -H. \
+ADD opencv /workdir
+WORKDIR /workdir
+RUN cmake -Bbuild -H. \
         -DWITH_EIGEN=ON -DWITH_TBB=ON -DWITH_OPENGL=ON -DBUILD_TIFF=ON \
         -DWITH_QT=OFF -DWITH_FFMPEG=OFF \
         -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PACKAGE=OFF \
