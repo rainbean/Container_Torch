@@ -79,7 +79,6 @@ jobs:
         run: |
           Copy-Item vcpkg\installed\x64-windows\bin\tbb.dll Release\x64\vc16\bin\
           Copy-Item OpenBLAS\bin\libopenblas.dll Release\x64\vc16\bin\
-          Write-Host (dir Release\x64\vc16\bin\)
           Compress-Archive -Path Release\* -DestinationPath opencv-win64.zip
 
       - name: Draft release
