@@ -3,7 +3,7 @@ name: Build OpenCV x64-windows
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 # on: [workflow_dispatch]
 
