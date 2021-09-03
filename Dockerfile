@@ -26,7 +26,7 @@ RUN cmake -Bbuild -H. \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.7.1.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/lts/1.8/cu102/libtorch-cxx11-abi-shared-with-deps-1.8.2%2Bcu102.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
 ##########################################################
