@@ -28,7 +28,7 @@ jobs:
         with:
           vcpkgDirectory: "${{ github.workspace }}/vcpkg"
           vcpkgTriplet: x64-windows
-          vcpkgArguments: tbb
+          vcpkgArguments: eigen3 tbb
 
       - name: Configure CMake
         uses: lukka/run-cmake@v3
