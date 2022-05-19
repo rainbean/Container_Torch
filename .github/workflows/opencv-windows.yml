@@ -34,7 +34,7 @@ jobs:
           vcpkgArguments: tbb
 
       - name: Configure CMake
-        uses: lukka/run-cmake@v10
+        uses: lukka/run-cmake@v9
         env:
           OpenBLAS_HOME: ${{ github.workspace }}/OpenBLAS
         with:
