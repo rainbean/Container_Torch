@@ -1,11 +1,7 @@
 name: Build OpenCV x64-windows
 
-on:
-  push:
-    tags:
-      - "*"
-
-# on: [workflow_dispatch]
+# manual trigger
+on: workflow_dispatch
 
 jobs:
   build:
@@ -27,15 +23,18 @@ jobs:
           Expand-Archive OpenBLAS.zip OpenBLAS
           Copy-Item OpenBLAS\lib\libopenblas.lib OpenBLAS\lib\openblas.lib
 
+      - name: Install latest CMake
+        uses: lukka/get-cmake@latest
+
       - name: Restore artifacts, or setup vcpkg
-        uses: lukka/run-vcpkg@v6
+        uses: lukka/run-vcpkg@v10
         with:
           vcpkgDirectory: "${{ github.workspace }}/vcpkg"
           vcpkgTriplet: x64-windows
           vcpkgArguments: tbb
 
       - name: Configure CMake
-        uses: lukka/run-cmake@v3
+        uses: lukka/run-cmake@v10
         env:
           OpenBLAS_HOME: ${{ github.workspace }}/OpenBLAS
         with:
