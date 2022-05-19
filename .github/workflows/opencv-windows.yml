@@ -23,9 +23,6 @@ jobs:
           Expand-Archive OpenBLAS.zip OpenBLAS
           Copy-Item OpenBLAS\lib\libopenblas.lib OpenBLAS\lib\openblas.lib
 
-      - name: Install latest CMake
-        uses: lukka/get-cmake@latest
-
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
@@ -34,7 +31,7 @@ jobs:
           vcpkgArguments: tbb
 
       - name: Configure CMake
-        uses: lukka/run-cmake@v9
+        uses: lukka/run-cmake@v3
         env:
           OpenBLAS_HOME: ${{ github.workspace }}/OpenBLAS
         with:
