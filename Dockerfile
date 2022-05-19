@@ -1,9 +1,15 @@
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 as build
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04 as build
+
+# fix nvidia apt update error
+RUN apt-key del 7fa2af80 && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
 
 RUN apt-get -y update
 
 # Build tools:
-RUN apt-get install -y build-essential cmake unzip
+RUN apt-get -y update && \
+    apt-get install -y build-essential cmake unzip
 
 # Parallelism and linear algebra libraries:
 RUN apt-get install -y libtbb-dev libeigen3-dev
@@ -26,19 +32,22 @@ RUN cmake -Bbuild -H. \
     make install
 
 # Download libtorch
-ADD https://download.pytorch.org/libtorch/lts/1.8/cu102/libtorch-cxx11-abi-shared-with-deps-1.8.2%2Bcu102.zip libtorch.zip
+ADD https://download.pytorch.org/libtorch/lts/1.8/cu111/libtorch-cxx11-abi-shared-with-deps-1.8.2%2Bcu111.zip libtorch.zip
 RUN unzip -q libtorch.zip -d /usr/local
 
 ##########################################################
 
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
 LABEL maintainer "Jimmy Lee"
 
+# fix nvidia apt update error
+RUN apt-key del 7fa2af80 && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+
 # library
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake git \
-        libtbb2 libzip-dev \
-        && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential cmake git libtbb2 libzip-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
