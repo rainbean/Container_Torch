@@ -38,7 +38,7 @@ jobs:
           useVcpkgToolchainFile: true
           buildDirectory: ${{ github.workspace }}/build
           buildWithCMake: true
-          buildWithCMakeArgs: '--target install'
+          buildWithCMakeArgs: '--target install --config Release'
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: "${{ github.workspace }}/opencv/CMakeLists.txt"
           cmakeAppendedArgs: >
