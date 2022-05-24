@@ -43,7 +43,7 @@ jobs:
           cmakeListsTxtPath: "${{ github.workspace }}/opencv/CMakeLists.txt"
           cmakeAppendedArgs: >
             '
-            -G "${{ github.generator }}"
+            -G "Visual Studio 16 2019"
             -A "x64"
             -DMAKE_BUILD_TYPE=RELEASE
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/Release"
