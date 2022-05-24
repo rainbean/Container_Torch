@@ -41,7 +41,7 @@ jobs:
           buildDirectory: ${{ github.workspace }}/build
           useVcpkgToolchainFile: true
           buildWithCMake: true
-          buildWithCMakeArgs: '--target install'
+          buildWithCMakeArgs: '--target install --config Release'
           cmakeAppendedArgs: >
             '
             -A "x64"
