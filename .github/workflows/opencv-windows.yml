@@ -38,14 +38,14 @@ jobs:
           useVcpkgToolchainFile: true
           buildDirectory: ${{ github.workspace }}/build
           buildWithCMake: true
-          buildWithCMakeArgs: '--target install --config Release'
+          buildWithCMakeArgs: '--target install'
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: "${{ github.workspace }}/opencv/CMakeLists.txt"
           cmakeAppendedArgs: >
             '
             -G "Visual Studio 16 2019"
             -A "x64"
-            -DMAKE_BUILD_TYPE=RELEASE
+            -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/Release"
             -DWITH_EIGEN=ON
             -DWITH_TBB=ON
