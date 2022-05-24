@@ -39,13 +39,13 @@ jobs:
           buildDirectory: ${{ github.workspace }}/build
           buildWithCMake: true
           buildWithCMakeArgs: '--target install'
-          cmakeListsOrSettingsJson: CMakeListsTxtBasic
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: "${{ github.workspace }}/opencv/CMakeLists.txt"
-          cmakeGenerator: VS16Win64
-          cmakeBuildType: Release
           cmakeAppendedArgs: >
             '
+            -G "${{ github.generator }}"
             -A "x64"
+            -DMAKE_BUILD_TYPE=RELEASE
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/Release"
             -DWITH_EIGEN=ON
             -DWITH_TBB=ON
