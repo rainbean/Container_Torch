@@ -34,18 +34,18 @@ jobs:
         uses: lukka/run-cmake@v3
         env:
           OpenBLAS_HOME: ${{ github.workspace }}/OpenBLAS
-          CMAKE_GENERATOR: Visual Studio 16 2019
         with:
+          useVcpkgToolchainFile: true
+          buildDirectory: ${{ github.workspace }}/build
+          buildWithCMake: true
+          buildWithCMakeArgs: '--target install'
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: "${{ github.workspace }}/opencv/CMakeLists.txt"
-          buildDirectory: ${{ github.workspace }}/build
-          useVcpkgToolchainFile: true
-          buildWithCMake: true
-          buildWithCMakeArgs: '--target install --config Release'
+          cmakeGenerator: VS16Win64
+          cmakeBuildType: Release
           cmakeAppendedArgs: >
             '
             -A "x64"
-            -DMAKE_BUILD_TYPE=RELEASE
             -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/Release"
             -DWITH_EIGEN=ON
             -DWITH_TBB=ON
